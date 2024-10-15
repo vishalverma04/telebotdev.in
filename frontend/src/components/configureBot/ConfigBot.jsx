@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import TermsConditions from '../RazorpayTermAndCondtions/TermConditions'; // Import the Terms and Conditions component
+import TermConditions from '../RazorpayTermAndCondtions/TermConditions'; // Import the Terms and Conditions component
 
 const ConfigureBot = () => {
   const { plan } = useParams();
@@ -14,10 +14,11 @@ const ConfigureBot = () => {
     setBotToken(e.target.value);
   };
 
+  // Function to launch Razorpay after terms are accepted
   const launchRazorpay = () => {
     const options = {
       key: "YOUR_RAZORPAY_KEY", // Replace with your Razorpay API Key
-      amount: plan === 'basic' ? 50000 : 100000, // Amount in paise
+      amount: plan === 'basic' ? 50000 : 100000, // Amount in paise (500 or 1000 INR)
       currency: "INR",
       name: "TeleBotDev",
       description: `Payment for ${plan.charAt(0).toUpperCase() + plan.slice(1)} Plan`,
@@ -46,6 +47,11 @@ const ConfigureBot = () => {
   const handleLaunch = () => {
     console.log(`Bot launched with token: ${botToken} for ${plan} plan`);
     alert(`Bot successfully launched for the ${plan} plan!`);
+  };
+
+  const proceedToPayment = () => {
+    setShowTerms(false); // Close the terms modal
+    launchRazorpay(); // Start Razorpay payment
   };
 
   return (
@@ -94,7 +100,7 @@ const ConfigureBot = () => {
 
       {/* Terms and Conditions Modal */}
       {showTerms && (
-        <TermsConditions onClose={() => setShowTerms(false)} />
+        <TermConditions onClose={() => setShowTerms(false)} onProceed={proceedToPayment} />
       )}
     </div>
   );

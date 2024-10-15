@@ -24,6 +24,8 @@ const Navbar = ({ isLoggedIn, userName }) => {
             <Link to="/" className="hover:text-yellow-500">Home</Link>
             <Link to="/about" className="hover:text-yellow-500">About</Link>
             <Link to="/contact" className="hover:text-yellow-500">Contact Us</Link>
+            <Link to="/plans" className="hover:text-yellow-500">Plans</Link>
+            <Link to="/documentation" className="hover:text-yellow-500">Documentation</Link>
           </div>
         </div>
 

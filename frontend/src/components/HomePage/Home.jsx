@@ -9,7 +9,7 @@ const Home = () => {
         <div className="md:w-1/2 space-y-6">
           <h1 className="text-4xl md:text-5xl font-bold text-blue-900">Automate Your Telegram Bots Easily with TeleBotDev</h1>
           <p className="text-lg text-gray-600">Manage, deploy, and monitor your Telegram bots seamlessly with our intuitive platform.</p>
-          <a href="/signup" className="bg-yellow-500 text-white py-3 px-6 rounded-md text-lg font-semibold hover:bg-yellow-600">Get Started for Free</a>
+          <a href="/plans" className="bg-yellow-500 text-white py-3 px-6 rounded-md text-lg font-semibold hover:bg-yellow-600">Get Started for Free</a>
         </div>
         <div className="md:w-1/2 mt-10 md:mt-0">
           <img src={HeaderImage} alt="TeleBotDev Automation" className="w-full" />
