@@ -1,31 +1,54 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import axios from 'axios'
+import toast from 'react-hot-toast';
 
 function SignupPage() {
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
-  const [dob, setDob] = useState('');
+  // const [dob, setDob] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [loading,setLoading]=useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-
-    // Check if passwords match
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      toast.error('does not match password');
       return;
     }
-
-    // Reset the error and navigate to the OTP page
-    setError('');
-    
-    // Simulate sending OTP, you can send it to backend here
-    navigate('/otp', { state: { email } });
+    setLoading(true);
+    try {
+      const {data}=await axios.post('http://localhost:4000/api/v1/signup',{
+        fullName,
+        email,
+        password
+      })
+      console.log(data)
+      if(data.status>=500){
+        toast.error(data.message)
+        return;
+      }
+     if(data.status<300) toast.success(data.message)
+      navigate('/verifyemail', { state: { email } });
+    } catch (error) {
+      toast.error('something went wrong while sending data...')
+    }finally{
+      setLoading(false)
+    }
   };
+  
+  if (loading) {
+    return (
+      <div className="text-center py-12">
+        <h2 className="text-2xl font-semibold text-gray-800">Loading...</h2>
+        {/* You can replace this with a spinner component */}
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -61,7 +84,7 @@ function SignupPage() {
             />
           </div>
 
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label htmlFor="dob" className="block text-gray-700 text-sm font-bold mb-2">
               Date of Birth
             </label>
@@ -73,7 +96,7 @@ function SignupPage() {
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
             />
-          </div>
+          </div> */}
 
           <div className="mb-4">
             <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">

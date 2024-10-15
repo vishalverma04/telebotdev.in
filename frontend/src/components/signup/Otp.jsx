@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useAsyncError, useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 function OTPPage() {
   const [otp, setOtp] = useState('');
@@ -7,21 +9,37 @@ function OTPPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email;
+  const [loading,setLoading]=useState(false)
 
-  const handleOTPSubmit = (e) => {
+  const handleOTPSubmit = async(e) => {
     e.preventDefault();
-
-    // Hardcoded OTP for demonstration, replace with your OTP logic
-    const correctOtp = '123456';
-
-    if (otp === correctOtp) {
-      // Redirect to the Home Page after successful OTP verification
-      alert('OTP Verified Successfully');
-      navigate('/home'); // Redirect to Home Page
-    } else {
-      setError('Invalid OTP. Please try again.');
+    setLoading(true)
+    try {
+      const {data}=await axios.post('http://localhost:4000/api/v1/verifyotp',{
+         email,otp
+      })
+      toast.success(data.message,{
+      success: {
+      duration: 5000,
+      icon: '🔥',
+    },})
+      console.log(data)
+      navigate('/login');
+    } catch (error) {
+      toast.error(data.message)
+    }finally{
+      setLoading(false)
     }
+
   };
+  if (loading) {
+    return (
+      <div className="text-center py-12">
+        <h2 className="text-2xl font-semibold text-gray-800">Loading...</h2>
+        {/* You can replace this with a spinner component */}
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
