@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.webp'
 
-const Navbar = ({ isLoggedIn, userName }) => {
+const Navbar = ({fullName,isLoggedIn}) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -32,7 +32,7 @@ const Navbar = ({ isLoggedIn, userName }) => {
         {/* Right Side: User Information or Login Link */}
         <div className="hidden md:block">
           {isLoggedIn ? (
-            <span className="text-lg">Welcome, {userName}!</span>
+            <span className="text-lg">Welcome, {fullName}!</span>
           ) : (
             <Link to="/login" className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md">
               Login

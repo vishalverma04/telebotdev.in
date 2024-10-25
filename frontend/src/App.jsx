@@ -10,14 +10,18 @@ import ConfigureBot from './components/configureBot/ConfigBot'
 import Documentation from './components/documentation/documentation'
 import PlansPage from './components/planeSection/PlaneSection'
 import CheckoutPage from './components/RazorpayTermAndCondtions/Checkout'
+import { useAuth } from './components/contexts/AuthContext'
 
 
 function App() {
+
+  const {fullName}=useAuth()
+  const {isLoggedIn}=useAuth()
   return (
     <>
      <Router>
          <div>
-          <Navbar/>
+          <Navbar fullName={fullName} isLoggedIn={isLoggedIn}/>
          </div>
       <Routes>
         <Route path='/login' element={<LoginPage/>}/>

@@ -38,4 +38,58 @@ try {
 
 });
 
-export {registerUser}
+const loginUser=asyncHander(async (req,res)=>{
+  
+   const {email,password}=req.body
+   console.log(email,password)
+  
+   if(!email){
+    throw new Apierror(400,"username or email required")
+   }
+   
+   const user=await User.findOne({email})
+   
+   if(!user){
+    throw new Apierror(404,"user does not exits")
+   }
+ 
+   const isPasswordValid=await user.isPasswordCorrect(password)
+ 
+   if(!isPasswordValid){
+    throw new Apierror(404,"invalid password")
+   }
+ 
+   const jwttoken = user.generateAccessToken();
+
+   const loggedInUser={
+      fullName:user.fullName,
+      email:user.email
+   }
+ 
+    const options={
+       httpOnly:true,
+       secure:process.env.NODE_ENV === "production",
+    }
+    //send response
+    res.status(200)
+    .cookie("jwttoken",jwttoken,options)
+    .json(
+       new ApiResponse(200,{user:loggedInUser,jwttoken},"user succesfully logged in")
+    )
+ 
+ })
+ 
+ const logoutUser=asyncHander(async (req,res)=>{
+  
+  const options={
+    httpOnly:true,
+    secure:true
+ }
+  
+ res.status(200)
+ .clearCookie("jwttoken",options)
+ .json(new ApiResponse(200,{},"User logged Out"))
+ 
+ })
+
+export {registerUser,loginUser,logoutUser}

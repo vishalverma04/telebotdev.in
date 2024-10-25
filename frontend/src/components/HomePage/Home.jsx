@@ -1,5 +1,6 @@
 import React from 'react';
 import HeaderImage from '../../assets/telebotdev.webp'; // Sample image path
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
@@ -9,7 +10,7 @@ const Home = () => {
         <div className="md:w-1/2 space-y-6">
           <h1 className="text-4xl md:text-5xl font-bold text-blue-900">Automate Your Telegram Bots Easily with TeleBotDev</h1>
           <p className="text-lg text-gray-600">Manage, deploy, and monitor your Telegram bots seamlessly with our intuitive platform.</p>
-          <a href="/plans" className="bg-yellow-500 text-white py-3 px-6 rounded-md text-lg font-semibold hover:bg-yellow-600">Get Started for Free</a>
+          <Link to="/plans" className="bg-yellow-500 text-white py-3 px-6 rounded-md text-lg font-semibold hover:bg-yellow-600">Get Started for Free</Link>
         </div>
         <div className="md:w-1/2 mt-10 md:mt-0">
           <img src={HeaderImage} alt="TeleBotDev Automation" className="w-full" />
@@ -57,7 +58,7 @@ const Home = () => {
       {/* Call to Action */}
       <section className="py-16 bg-blue-900 text-center text-white">
         <h2 className="text-3xl font-bold">Ready to Get Started?</h2>
-        <a href="/signup" className="mt-8 bg-yellow-500 text-white py-3 px-6 rounded-md text-lg font-semibold hover:bg-yellow-600">Sign Up Now</a>
+        <Link to="/signup" className="mt-8 bg-yellow-500 text-white py-3 px-6 rounded-md text-lg font-semibold hover:bg-yellow-600">Sign Up Now</Link>
       </section>
 
       {/* Footer */}

@@ -72,18 +72,46 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setloading] = useState(false);
+  const { login } = useAuth();
+  const navigate=useNavigate()
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Email/Username:', email);
-    console.log('Password:', password);
+    try{
+      setloading(true)
+     const res= await login(email, password);
+     if(res){
+      toast.success('login successfully')
+      navigate('/')
+     }else{
+      toast.error('login failed')
+     }
+    }catch(error){
+      setloading(false)
+      console.log('something went wrong while sending data...')
+    }finally{
+  setloading(false)
+    }
+    
   };
+
+  if (loading) {
+    return (
+      <div className="text-center py-12">
+        <h2 className="text-2xl font-semibold text-gray-800">Loading...</h2>
+        {/* You can replace this with a spinner component */}
+      </div>
+    );
+  }
   
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
